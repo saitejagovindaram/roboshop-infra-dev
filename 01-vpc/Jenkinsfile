@@ -14,22 +14,30 @@ pipeline {
     stages {
         stage('init') {
             steps {
-                terraform init -reconfigure
+                sh '''
+                    terraform init -reconfigure
+                '''
             }
         }
         stage('plan') {
             steps {
-                terraform plan
+                sh '''
+                    terraform plan
+                '''
             }
         }
         stage('apply') {
             steps {
-                terraform apply -auto-approve
+                sh '''
+                    terraform apply -auto-approve
+                '''
             }
         }
         stage('destroy') {
             steps {
-                terraform destroy -auto-approve
+                sh '''
+                    terraform destroy -auto-approve
+                '''
             }
         }
     }
