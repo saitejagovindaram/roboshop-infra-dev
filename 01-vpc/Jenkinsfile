@@ -7,6 +7,9 @@ pipeline {
     // environment { 
     //     MyENV = 'Hello Jenkins '
     // }
+    parameters {
+        choice(name: 'action', choices: ['apply', 'destroy'], description: 'Pick something')
+    }
     options {
         timeout(time: 1, unit: 'HOURS') 
         disableConcurrentBuilds()
@@ -30,6 +33,9 @@ pipeline {
             }
         }
         stage('apply') {
+            when {
+                expression { params.action == "apply"}
+            }
             input {
                 message "Should we continue?"
                 ok "Yes, we should."
@@ -38,6 +44,21 @@ pipeline {
                 sh '''
                     cd 01-vpc/
                     terraform apply -auto-approve
+                '''
+            }
+        }
+        stage('destroy') {
+            when {
+                expression { params.action == 'destroy'}
+            }
+            input {
+                message "Should we continue?"
+                ok "Yes, we should."
+            }
+            steps {
+                sh '''
+                    cd 01-vpc/
+                    terraform destroy -auto-approve
                 '''
             }
         }
