@@ -76,39 +76,7 @@ pipeline{
             }
         }
 
-        stage('VPC destroy'){
-            when {
-                expression { params.destroy == true }
-            }
-            steps{
-                sh """
-                    cd 01-vpc/
-                    terraform destroy -auto-approve
-                """
-            }
-        }
-        stage('SG destroy'){
-            when {
-                expression { params.destroy == true }
-            }
-            steps{
-                sh """
-                    cd 01-sg/
-                    terraform destroy -auto-approve
-                """
-            }
-        }
-        stage('VPN destroy'){
-            when {
-                expression { params.destroy == true }
-            }
-            steps{
-                sh """
-                    cd 03-vpn/
-                    terraform destroy -auto-approve
-                """
-            }
-        }
+
         stage('DB and ALB destroy') {
             when {
                 expression { params.destroy == true }
@@ -132,6 +100,43 @@ pipeline{
                 }
             }
         }
+
+       
+        stage('VPN destroy'){
+            when {
+                expression { params.destroy == true }
+            }
+            steps{
+                sh """
+                    cd 03-vpn/
+                    terraform destroy -auto-approve
+                """
+            }
+        }
+        
+        stage('SG destroy'){
+            when {
+                expression { params.destroy == true }
+            }
+            steps{
+                sh """
+                    cd 01-sg/
+                    terraform destroy -auto-approve
+                """
+            }
+        }
+         stage('VPC destroy'){
+            when {
+                expression { params.destroy == true }
+            }
+            steps{
+                sh """
+                    cd 01-vpc/
+                    terraform destroy -auto-approve
+                """
+            }
+        }
+        
     }
 
     post {
