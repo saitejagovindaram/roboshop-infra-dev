@@ -37,16 +37,20 @@ pipeline{
         stage('DB and ALB') {
             parallel {
                 stage('Databases'){
-                    sh '''
-                        cd 04-databases
-                        terraform apply -auto-approve
-                    '''
+                    steps{
+                        sh '''
+                            cd 04-databases
+                            terraform apply -auto-approve
+                        ''' 
+                    } 
                 }
                   stage('App ALB'){
-                    sh '''
-                        cd 05-app-alb
-                        terraform apply -auto-approve
-                    '''
+                    steps{
+                        sh '''
+                            cd 05-app-alb
+                            terraform apply -auto-approve
+                        ''' 
+                    }
                 }
             }
         }
