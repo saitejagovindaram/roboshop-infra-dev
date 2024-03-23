@@ -32,7 +32,7 @@ pipeline{
             }
             steps{
                 sh """
-                    cd 01-sg/
+                    cd 02-sg/
                     terraform init
                     terraform apply -auto-approve
                 """
