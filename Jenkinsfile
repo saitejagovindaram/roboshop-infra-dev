@@ -51,11 +51,11 @@ pipeline{
             }
         }
         stage('DB and ALB apply') {
-            when {
-                expression { params.apply == true }
-            }
             parallel {
                 stage('Databases'){
+                     when {
+                        expression { params.apply == true }
+                    }
                     steps{
                         sh '''
                             cd 04-databases
@@ -65,6 +65,9 @@ pipeline{
                     } 
                 }
                   stage('App ALB'){
+                     when {
+                        expression { params.apply == true }
+                    }
                     steps{
                         sh '''
                             cd 05-app-alb
