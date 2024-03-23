@@ -120,7 +120,7 @@ pipeline{
             }
             steps{
                 sh """
-                    cd 01-sg/
+                    cd 02-sg/
                     terraform destroy -auto-approve
                 """
             }
