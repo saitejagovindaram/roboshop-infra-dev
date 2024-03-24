@@ -1,7 +1,7 @@
 module "mongodb" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   ami = data.aws_ami.centos8.id
-  name = "${var.project_name}-mongodb"
+  name = "${var.project_name}-${var.environment}-mongodb"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.mongodb_sg_id.value]
   subnet_id              = local.database_subnet_id
@@ -42,7 +42,7 @@ resource "null_resource" "mongodb-null" {
 module "mysql" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   ami = data.aws_ami.centos8.id
-  name = "${var.project_name}-mysql"
+  name = "${var.project_name}-${var.environment}-mysql"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.mysql_sg_id.value]
   subnet_id              = local.database_subnet_id
@@ -84,7 +84,7 @@ resource "null_resource" "mysql-null" {
 module "redis" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   ami = data.aws_ami.centos8.id
-  name = "${var.project_name}-mysql"
+  name = "${var.project_name}-${var.environment}-mysql"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.redis_sg_id.value]
   subnet_id              = local.database_subnet_id
@@ -125,7 +125,7 @@ resource "null_resource" "redis-null" {
 module "rabbitmq" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   ami = data.aws_ami.centos8.id
-  name = "${var.project_name}-rabbitmq"
+  name = "${var.project_name}-${var.environment}-rabbitmq"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.rabbitmq_sg_id.value]
   subnet_id              = local.database_subnet_id
@@ -172,7 +172,7 @@ module "records" {
 
   records = [
     {
-      name    = "mongodb-dev"
+      name    = "mongodb-${var.environment}"
       type    = "A"
       ttl     = 1
       records = [
@@ -180,7 +180,7 @@ module "records" {
       ]
     },
      {
-      name    = "redis-dev"
+      name    = "redis-${var.environment}"
       type    = "A"
       ttl     = 1
       records = [
@@ -188,7 +188,7 @@ module "records" {
       ]
     },
      {
-      name    = "mysql-dev"
+      name    = "mysql-${var.environment}"
       type    = "A"
       ttl     = 1
       records = [
@@ -196,7 +196,7 @@ module "records" {
       ]
     },
     {
-      name    = "rabbitmq-dev"
+      name    = "rabbitmq-${var.environment}"
       type    = "A"
       ttl     = 1
       records = [
