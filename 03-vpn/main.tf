@@ -13,7 +13,7 @@ module "vpn" {
   tags = merge(
     var.common_tags,
     {
-        Name = "vpn"
+        Name = "vpn-${var.environment}"
     }
   )
 }
