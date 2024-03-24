@@ -1,7 +1,7 @@
 module "vpn" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   ami = data.aws_ami.centos8.id
-  name = "${var.project_name}-vpn"
+  name = "${var.project_name}-${var.environment}-vpn"
 
   instance_type          = "t2.small"
 #   key_name               = "user1" # we are not using any key pair
